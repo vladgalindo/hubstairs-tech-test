@@ -43,7 +43,7 @@ const DEFAULT_CHART_OPTIONS = {
 export const Graph = () => {
 
     const loadCsvForm = useRef();
-    
+
     const [chartOptions, setChartOptions] = useState(DEFAULT_CHART_OPTIONS);
 
     const LoadChartData = (data) => {
@@ -98,7 +98,10 @@ export const Graph = () => {
                 </div>
                 <div className="column is-8">
                     <section id={'playlist'}>
-                        chart...
+                        { chartOptions.series && <HighchartsReact
+                            highcharts={Highcharts}
+                            options={chartOptions}
+                        />}
                     </section>
                 </div>
             </div>
