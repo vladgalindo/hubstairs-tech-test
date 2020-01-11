@@ -1,11 +1,31 @@
 import React, {Fragment, useEffect, useRef, useState} from 'react';
 
+const usePrimeHistory = storageKey => {
+    const [primeHistory, setPrimeHistory] = useState(JSON.parse(localStorage.getItem(storageKey)) || []);
+
+    useEffect(() => {
+        localStorage.setItem(storageKey, JSON.stringify(primeHistory));
+    }, [primeHistory]);
+
+    return [primeHistory, setPrimeHistory];
+};
+
+const useLatestPrime = storageKey => {
+    const [latestPrime, setLatestPrime] = useState(JSON.parse(localStorage.getItem(storageKey)) || {});
+
+    useEffect(() => {
+        localStorage.setItem(storageKey, JSON.stringify(latestPrime));
+    }, [latestPrime]);
+
+    return [latestPrime, setLatestPrime];
+};
+
 export const Prime = () => {
 
     const primeFormRef = useRef();
     const primeInputRef = useRef();
-    const [primeHistory, setPrimeHistory] = useState([]);
-    const [latestPrime, setLatestPrime] = useState({});
+    const [primeHistory, setPrimeHistory] = usePrimeHistory('primeHistory');
+    const [latestPrime, setLatestPrime] = useLatestPrime('latestPrime');
     const DEFAULT_START_NUMBER = 1;
     const DEFAULT_START_INDEX = 1;
 
@@ -25,7 +45,6 @@ export const Prime = () => {
         } else {
             currentNumber = latestPrime.value || DEFAULT_START_NUMBER;
             primeFound = latestPrime.index || DEFAULT_START_INDEX;
-
         }
 
         while(primeFound <= primeIdx) {
