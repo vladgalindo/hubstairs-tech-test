@@ -45,7 +45,7 @@ const useChartOptions = storageKey => {
 
     useEffect(() => {
         localStorage.setItem(storageKey, JSON.stringify(chartOptions));
-    }, [chartOptions]);
+    }, [chartOptions, storageKey]);
 
     return [chartOptions, setChartOptions];
 };

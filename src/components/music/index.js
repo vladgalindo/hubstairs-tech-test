@@ -6,7 +6,7 @@ const useCurrentSong = storageKey => {
 
     useEffect(() => {
         localStorage.setItem(storageKey, currentSong);
-    }, [currentSong]);
+    }, [currentSong, storageKey]);
 
     return [currentSong, setCurrentSong];
 };
@@ -16,7 +16,7 @@ const useCurrentPlaylist = storageKey => {
 
     useEffect(() => {
         localStorage.setItem(storageKey, JSON.stringify(currentPlaylist));
-    }, [currentPlaylist]);
+    }, [currentPlaylist, storageKey]);
 
     return [currentPlaylist, setCurrentPlaylist];
 };
@@ -91,7 +91,7 @@ export const Music = () => {
 
         library.map(song => (
             <Fragment key={song.title}>
-                <a className="panel-block">
+                <a className="panel-block" href="#!">
                             <span className="panel-icon">
                               <i className="fas fa-music" aria-hidden="true"></i>
                             </span>
@@ -109,7 +109,7 @@ export const Music = () => {
             {
                 currentPlaylist.map(song => (
                     <Fragment key={song.title}>
-                        <a className="panel-block">
+                        <a className="panel-block" href="#!">
                             <span className="panel-icon">
                               <i className="fas fa-music" aria-hidden="true"></i>
                             </span>
