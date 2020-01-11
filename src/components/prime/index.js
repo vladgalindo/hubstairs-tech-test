@@ -17,8 +17,16 @@ export const Prime = () => {
             throw new Error(`the prime index must a positive number grather than zero, received value: ${primeIdx}`)
         }
 
-        let currentNumber = DEFAULT_START_NUMBER;
-        let primeFound = DEFAULT_START_INDEX;
+        let currentNumber;
+        let primeFound;
+        if (primeIdx - 1 < primeHistory.length) {
+            setLatestPrime(primeHistory[primeIdx - 1]);
+            return;
+        } else {
+            currentNumber = latestPrime.value || DEFAULT_START_NUMBER;
+            primeFound = latestPrime.index || DEFAULT_START_INDEX;
+
+        }
 
         while(primeFound <= primeIdx) {
             currentNumber += 1;
@@ -33,9 +41,20 @@ export const Prime = () => {
             }
         }
 
-        console.log({index: primeFound, value: currentNumber});
         setLatestPrime({index: primeFound, value: currentNumber});
     };
+
+    const renderPrimeHistory = () => (
+        <ul>
+            {
+                primeHistory.map(prime => (
+                    <Fragment key={prime.index}>
+                        <li>{`${prime.index}: ${prime.value}`}</li>
+                    </Fragment>
+                ))
+            }
+        </ul>
+    );
 
     return (
         <Fragment>
@@ -53,6 +72,7 @@ export const Prime = () => {
                 <div className="column is-4">
                     <section id={'history'}>
                         Prime query history
+                        {renderPrimeHistory()}
                     </section>
                 </div>
             </div>
