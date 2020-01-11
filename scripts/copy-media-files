@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e # Exit on any child process error
+
+cp -R ./src/audio-files ./public
