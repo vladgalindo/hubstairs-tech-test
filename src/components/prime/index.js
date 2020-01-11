@@ -5,7 +5,7 @@ const usePrimeHistory = storageKey => {
 
     useEffect(() => {
         localStorage.setItem(storageKey, JSON.stringify(primeHistory));
-    }, [primeHistory]);
+    }, [primeHistory, storageKey]);
 
     return [primeHistory, setPrimeHistory];
 };
@@ -15,7 +15,7 @@ const useLatestPrime = storageKey => {
 
     useEffect(() => {
         localStorage.setItem(storageKey, JSON.stringify(latestPrime));
-    }, [latestPrime]);
+    }, [latestPrime, storageKey]);
 
     return [latestPrime, setLatestPrime];
 };
@@ -85,7 +85,7 @@ export const Prime = () => {
                             <input type="text" className="input is-primary" name="primeIdx" ref={primeInputRef} placeholder="Introduce an index to calculate the corresponding Prime number"/>
                             <button className="button is-primary is-small">Calculate</button>
                         </form>
-                        { latestPrime.index && (`The prime number for the index ${latestPrime.index} is ${latestPrime.value}`)}
+                        { latestPrime.index && (`The prime number result is ${latestPrime.value}`)}
                     </section>
                 </div>
                 <div className="column is-4">
