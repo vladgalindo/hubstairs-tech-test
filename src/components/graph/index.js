@@ -40,11 +40,21 @@ const DEFAULT_CHART_OPTIONS = {
     }
 };
 
+const useChartOptions = storageKey => {
+    const [chartOptions, setChartOptions] = useState(JSON.parse(localStorage.getItem(storageKey)) || DEFAULT_CHART_OPTIONS);
+
+    useEffect(() => {
+        localStorage.setItem(storageKey, JSON.stringify(chartOptions));
+    }, [chartOptions]);
+
+    return [chartOptions, setChartOptions];
+};
+
 export const Graph = () => {
 
     const loadCsvForm = useRef();
 
-    const [chartOptions, setChartOptions] = useState(DEFAULT_CHART_OPTIONS);
+    const [chartOptions, setChartOptions] = useChartOptions('chartOptions');
 
     const LoadChartData = (data) => {
         if(data[0].length !== 4) {
