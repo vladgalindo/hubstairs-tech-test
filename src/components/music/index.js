@@ -1,10 +1,30 @@
 import React, {Fragment,useEffect, useState, useRef} from 'react';
 import {library as musicLibrary} from '../../audio-files/library';
 
+const useCurrentSong = storageKey => {
+    const [currentSong, setCurrentSong] = useState(localStorage.getItem(storageKey) || null);
+
+    useEffect(() => {
+        localStorage.setItem(storageKey, currentSong);
+    }, [currentSong]);
+
+    return [currentSong, setCurrentSong];
+};
+
+const useCurrentPlaylist = storageKey => {
+    const [currentPlaylist, setCurrentPlaylist] = useState(JSON.parse(localStorage.getItem(storageKey)) || []);
+
+    useEffect(() => {
+        localStorage.setItem(storageKey, JSON.stringify(currentPlaylist));
+    }, [currentPlaylist]);
+
+    return [currentPlaylist, setCurrentPlaylist];
+};
+
 export const Music = () => {
 
-    const [currentSong, setCurrentSong] = useState('audio-files/DoNotDisturb.mp3');
-    const [currentPlaylist, setCurrentPlaylist] = useState([]);
+    const [currentSong, setCurrentSong] = useCurrentSong('currentSong');
+    const [currentPlaylist, setCurrentPlaylist] = useCurrentPlaylist('currentPlaylist');
 
     const [library] = useState(musicLibrary);
     const audioSrcRef = useRef();
@@ -75,7 +95,7 @@ export const Music = () => {
                             <span className="panel-icon">
                               <i className="fas fa-music" aria-hidden="true"></i>
                             </span>
-                    <span style={SONG_TITLE_CLASS}>{song.title}</span>
+                    <span style={SONG_TITLE_CLASS}>{song.artist} - {song.title}</span>
                     <span className="panel-icon" onClick={() => playSong(song)}>
                               <i className="fas fa-play" aria-hidden="true"></i>
                             </span>
@@ -93,7 +113,7 @@ export const Music = () => {
                             <span className="panel-icon">
                               <i className="fas fa-music" aria-hidden="true"></i>
                             </span>
-                            <span style={SONG_TITLE_CLASS}>{song.title}</span>
+                            <span style={SONG_TITLE_CLASS}>{song.artist} - {song.title}</span>
                             <span className="panel-icon" onClick={() => playSong(song)}>
                               <i className="fas fa-play" aria-hidden="true"></i>
                             </span>
